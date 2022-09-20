@@ -1,7 +1,7 @@
 assets-path: ""
-bolt-path: /var/lib/influxdb/influxdb.bolt
+bolt-path: /var/lib/influxdb2/influxdb.bolt
 e2e-testing: false
-engine-path: /var/lib/influxdb/engine
+engine-path: /var/lib/influxdb2/engine
 feature-flags: {}
 flux-log-enabled: false
 http-bind-address: :8086

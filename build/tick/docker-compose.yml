@@ -15,20 +15,20 @@ services:
     env_file:
       - ./influxdb/influxdb.env
     volumes:
-      - influxdb-vlm:/var/lib/influxdb
-      - ./influxdb/config.yml:/etc/influxdb/config.yml
+      - influxdb-vlm:/var/lib/influxdb2
+      - ./influxdb/config.yml:/etc/influxdb2/config.yml
 
-  chronograf:
-    container_name: chronograf
-    image: chronograf:latest
-    ports:
-      - "8888:8888"
-    volumes:
-      - chronograf-vlm:/var/lib/chronograf
-    depends_on:
-      - influxdb
-    env_file:
-      - ./chronograf/chronograf.env
+#  chronograf:
+#    container_name: chronograf
+#    image: chronograf:latest
+#    ports:
+#      - "8888:8888"
+#    volumes:
+#      - chronograf-vlm:/var/lib/chronograf
+#    depends_on:
+#      - influxdb
+#    env_file:
+#      - ./chronograf/chronograf.env
 
   telegraf:
     container_name: telegraf
@@ -45,6 +45,8 @@ services:
   postgres:
     container_name: postgres
     image: bitnami/postgresql:latest
+    ports:
+      - "5432:5432"
     env_file:
       - ./postgres/postgres.env
     volumes:

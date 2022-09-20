@@ -2,8 +2,8 @@ package main
 
 import (
 	"context"
-	"kafka/pkg/log"
-	"kafka/pkg/otel"
+	"godemos/pkg/log"
+	"godemos/pkg/otel"
 	"os"
 	"os/signal"
 )

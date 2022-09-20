@@ -4,7 +4,7 @@ package main
 import (
 	"context"
 	"flag"
-	"kafka/pkg/log"
+	"godemos/pkg/log"
 	"os"
 	"os/signal"
 	"strings"
