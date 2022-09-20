@@ -1,0 +1,66 @@
+version: '3.8'
+
+volumes:
+  influxdb-vlm:
+  grafana-vlm:
+  chronograf-vlm:
+  postgres-vlm:
+
+services:
+  influxdb:
+    container_name: influxdb
+    image: influxdb:latest
+    ports:
+      - "8086:8086"
+    env_file:
+      - ./influxdb/influxdb.env
+    volumes:
+      - influxdb-vlm:/var/lib/influxdb
+      - ./influxdb/config.yml:/etc/influxdb/config.yml
+
+  chronograf:
+    container_name: chronograf
+    image: chronograf:latest
+    ports:
+      - "8888:8888"
+    volumes:
+      - chronograf-vlm:/var/lib/chronograf
+    depends_on:
+      - influxdb
+    env_file:
+      - ./chronograf/chronograf.env
+
+  telegraf:
+    container_name: telegraf
+    image: telegraf:alpine
+    ports:
+      - "8125:8125/udp"
+    depends_on:
+      - influxdb
+    env_file:
+      - ./telegraf/telegraf.env
+    volumes:
+      - ./telegraf/telegraf.conf:/etc/telegraf/telegraf.conf:ro
+
+  postgres:
+    container_name: postgres
+    image: bitnami/postgresql:latest
+    env_file:
+      - ./postgres/postgres.env
+    volumes:
+      - postgres-vlm:/bitnami/postgresql
+
+  grafana:
+    container_name: grafana
+    image: grafana/grafana:latest
+    ports:
+      - "3000:3000"
+    depends_on:
+      - postgres
+      - influxdb
+    env_file:
+      - ./grafana/grafana.env
+    volumes:
+      - grafana-vlm:/var/lib/grafana
+      - ./grafana/provisioning:/etc/grafana/provisioning
+      - ./grafana/dashboards:/etc/dashboards
